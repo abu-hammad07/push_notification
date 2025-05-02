@@ -15,12 +15,8 @@ class PushNotificationController extends Controller
     public function saveSubscription(Request $request)
     {
         try {
-            // Use $request->input('sub') for JSON payloads
-            // $subscription = $request->input('sub');
-
             $item = new PushNotification();
-            // $item->subscription = json_encode($request->sub);
-            $item->subscription = $request->sub;
+            $item->subscription = json_decode($request->sub);
             $item->save();
 
             return response()->json([
@@ -72,6 +68,8 @@ class PushNotificationController extends Controller
     // }
 
 
+
+
     public function sendNotification(Request $request)
     {
         $auth = [
@@ -93,10 +91,12 @@ class PushNotificationController extends Controller
         $notifications = PushNotification::all(); // Assuming this model holds subscriptions
 
         foreach ($notifications as $notification) {
-            $subscription = Subscription::create($notification->subscription); // Make sure $notification->subscription is a valid array
+
+            // $subscription = Subscription::create($notification->subscription); // Make sure $notification->subscription is a valid array
 
             $webPush->sendOneNotification(
-                $subscription,
+                // $subscription,
+                Subscription::create($notification->subscription),
                 $payload,
                 ['TTL' => 5000]
             );

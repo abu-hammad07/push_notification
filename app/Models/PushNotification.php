@@ -15,5 +15,5 @@ class PushNotification extends Model
         'subscription' => 'array' // ✅ automatically converts JSON to array
     ];
 
-    protected $fillable = ['subscription']; // ✅ optional: if you're using mass assignment
+    // protected $fillable = ['subscription']; // ✅ optional: if you're using mass assignment
 }
